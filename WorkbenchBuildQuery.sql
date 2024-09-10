@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `Little-Lemon-DB`.`Orders` (
   `OrderDate` DATE NOT NULL,
   `BillAmount` DECIMAL NOT NULL,
   `CustomerID` INT NOT NULL,
+  `Quantity` INT NOT NULL,
   PRIMARY KEY (`OrderID`),
   INDEX `MenuID_idx` (`MenuID` ASC) VISIBLE,
   INDEX `CustomerID_idx` (`CustomerID` ASC) VISIBLE,
@@ -169,6 +170,37 @@ CREATE TABLE IF NOT EXISTS `Little-Lemon-DB`.`Bookings` (
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `EmployeeIDFK`
+    FOREIGN KEY (`EmployeeID`)
+    REFERENCES `Little-Lemon-DB`.`Staff` (`EmployeeID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `Little-Lemon-DB`.`OrderStatus`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Little-Lemon-DB`.`OrderStatus` (
+  `OrderStatusID` INT NOT NULL,
+  `OrderID` INT NOT NULL,
+  `CustomerID` INT NOT NULL,
+  `EmployeeID` INT NOT NULL,
+  `Status` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`OrderStatusID`),
+  INDEX `OrderIDFK_idx` (`OrderID` ASC) VISIBLE,
+  INDEX `CustomerIDKF-Status_idx` (`CustomerID` ASC) VISIBLE,
+  INDEX `EmployeeIDFK_idx` (`EmployeeID` ASC) VISIBLE,
+  CONSTRAINT `OrderIDFK`
+    FOREIGN KEY (`OrderID`)
+    REFERENCES `Little-Lemon-DB`.`Orders` (`OrderID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `CustomerIDKF-Status`
+    FOREIGN KEY (`CustomerID`)
+    REFERENCES `Little-Lemon-DB`.`Customers` (`CustomerID`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `EmployeeIDFK-Status`
     FOREIGN KEY (`EmployeeID`)
     REFERENCES `Little-Lemon-DB`.`Staff` (`EmployeeID`)
     ON DELETE CASCADE
